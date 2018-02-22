@@ -11,6 +11,9 @@ repositories {
 ext.junitJupiterVersion = '5.0.3'
 
 dependencies {
-	testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
-	testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+	testCompile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+	testRuntime "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+	testCompile "org.assertj:assertj-core:3.9.0"
+	testCompile "org.mockito:mockito-core:2.15.0"
+
 }
