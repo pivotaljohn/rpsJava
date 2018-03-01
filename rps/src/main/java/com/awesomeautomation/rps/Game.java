@@ -4,9 +4,7 @@ import static com.awesomeautomation.rps.Throw.*;
 
 public class Game {
 
-
 	public void runGame(Throw p1Throw, Throw p2Throw, UserInterface userInterface) {
-
 		if (p1Throw.equals(p2Throw)) {
 			userInterface.draw();
 		} else if (playerOneDidWin(p1Throw, p2Throw)) {

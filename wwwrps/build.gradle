@@ -24,11 +24,13 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-actuator')
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	runtime('com.h2database:h2')
-	project(path: ':rps')
-	compileOnly('org.projectlombok:lombok')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile 'org.springframework.boot:spring-boot-starter-actuator'
+	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	compile project (':rps')
+	compileOnly 'org.projectlombok:lombok'
+
+	runtime 'com.h2database:h2'
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
