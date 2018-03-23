@@ -5,9 +5,7 @@ import com.awesomeautomation.rps.Throw;
 import com.awesomeautomation.rps.UserInterface;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -41,6 +38,7 @@ public class GameControllerTest {
 
 		assertThat(modelAndView.getViewName()).isEqualTo("index");
 		assertThat(modelAndView.getModel().get("game")).isInstanceOf(FormGame.class);
+		assertThat((String) modelAndView.getModel().get("errorText")).isNullOrEmpty();
 	}
 
 	@Test
@@ -59,6 +57,24 @@ public class GameControllerTest {
 
 		assertThat(modelAndView.getViewName()).isEqualTo("result");
 		assertThat(modelAndView.getModel().get("resultText")).isEqualTo("Player One Wins!");
+	}
+
+	@Test
+	public void playGame_givenInvalidInput_returnsInputPageWithGivenFormGameAndErrorMessage() throws Exception {
+		ModelAndView modelAndView =
+				mockMvc.perform(post("/playGame")
+				.contentType(APPLICATION_FORM_URLENCODED)
+				.param("playerOneThrow", "rock")
+				.param("playerTwoThrow", "sailboat"))
+				.andReturn().getModelAndView();
+
+		FormGame resultGame = (FormGame) modelAndView.getModel().get("game");
+
+		assertThat(modelAndView.getViewName()).isEqualTo("index");
+		assertThat(resultGame.getPlayerOneThrow()).isEqualTo("rock");
+		assertThat(resultGame.getPlayerTwoThrow()).isEqualTo("sailboat");
+		assertThat(modelAndView.getModel().get("errorText")).isEqualTo("Invalid Input");
+
 	}
 
 }

@@ -13,6 +13,8 @@
 <body>
 <h1> Rock Paper Scissors : </h1> An Awesome Automation creation
 
+<h2 style="color:red" th:text="${errorText}"></h2>
+
 <form action="#" th:action="@{/playGame}" th:object="${game}" method="post">
     <p>Player One Throw: <input type="text" th:field="*{playerOneThrow}" /></p>
     <p>Player Two Throw: <input type="text" th:field="*{playerTwoThrow}" /></p>

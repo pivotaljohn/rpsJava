@@ -23,11 +23,27 @@ public class GameController {
 	@PostMapping("/playGame")
 	public ModelAndView playGame(
 			@ModelAttribute("game") FormGame formGame) {
+		return throwsAreValid(formGame) ? playTheGame(formGame) : reportInvalidInput(formGame);
+	}
+
+	private ModelAndView reportInvalidInput(FormGame formGame) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("index");
+		modelAndView.addObject("game", formGame);
+		modelAndView.addObject("errorText", "Invalid Input");
+		return modelAndView;
+	}
+
+	private ModelAndView playTheGame(FormGame formGame) {
+		ModelAndView modelAndView = new ModelAndView();
 		ConcreteUserInterface concreteUserInterface = new ConcreteUserInterface();
 		game.runGame(Throw.valueOf(formGame.getPlayerOneThrow().toUpperCase()), Throw.valueOf(formGame.getPlayerTwoThrow().toUpperCase()), concreteUserInterface);
-
-		ModelAndView modelAndView = new ModelAndView("result");
+		modelAndView.setViewName("result");
 		modelAndView.addObject("resultText", concreteUserInterface.getResultString());
 		return modelAndView;
+	}
+
+	private boolean throwsAreValid(FormGame formGame) {
+		return Throw.isAThrow(formGame.getPlayerOneThrow()) && Throw.isAThrow(formGame.getPlayerTwoThrow());
 	}
 }
